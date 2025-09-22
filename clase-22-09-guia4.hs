@@ -27,15 +27,9 @@ sumaPotencias q n m =sumaFila q n m + sumaPotencias q (n-1) m
 
 
 ------
+divideN:: Int -> Int -> Int
+divideN n m | mod n m == 0 = m
+            | otherwise = divideN n (m+1)
 
-sumaDivisores:: Int -> Int -> Int
-sumaDivisores d n | d == n = n
-                  | otherwise = 1 + sumaDivisores d n
-
-divideN:: Int -> Int
-divideN n | n == 1 = 0
-          | otherwise = mod n sumaDivisores 2 n
-
---menorDivisor :: Int -> Int
---menorDivisor n | n==n=n
---               | otherwise = divideN
+menorDivisor :: Int -> Int
+menorDivisor n = divideN n 2
