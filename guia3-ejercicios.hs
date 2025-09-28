@@ -163,3 +163,23 @@ bisiesto2 x | mod x 400 == 0 = True
             | mod x 100 == 0 = False
             | mod x 4 == 0 = True
             | otherwise = False
+
+-- Ejercicio 7
+absolutoFloat :: Float -> Float
+absolutoFloat x | x < 0 = -x
+                | x > 0 = x
+                | otherwise = 0
+
+distanciaManhattan:: (Float, Float, Float) -> (Float, Float, Float) -> Float
+distanciaManhattan (a,b,c) (d,e,f) = absolutoFloat(a-d) + absolutoFloat(b-e) + absolutoFloat(c-f)
+
+-- Ejercicio 8
+
+sumaUltimosDosDigitos :: Integer -> Integer
+sumaUltimosDosDigitos x = mod x 10 + mod valor 10
+    where valor = div (absoluto x) 10
+
+comparar :: Integer -> Integer -> Integer
+comparar a b | sumaUltimosDosDigitos a  < sumaUltimosDosDigitos b = 1
+             | sumaUltimosDosDigitos a  > sumaUltimosDosDigitos b = -1
+             | sumaUltimosDosDigitos a  == sumaUltimosDosDigitos b = 0
