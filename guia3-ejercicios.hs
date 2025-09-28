@@ -86,3 +86,80 @@ eliminarUltimoDigito x = div x 10
 
 digitoDecenas :: Int -> Int
 digitoDecenas x = eliminarUltimoDigito (mod x 100)
+
+-- Ejercicio 3. Implementar una función estanRelacionados :: Integer -> Integer -> Bool
+
+estanRelacionados :: Int -> Int -> Bool
+estanRelacionados a b | mod a b == 0 = True
+                      | otherwise = False
+
+-- Ejercicio 4
+-- a) productoInterno: calcula el producto interno entre dos tuplas de R × R.
+productoInterno :: (Int, Int) -> (Int, Int) -> Int
+productoInterno (a,b) (c,d) = a*c + b*d
+
+-- b) esParMenor: dadas dos tuplas de R × R, decide si cada coordenada de la primera tupla es menor a la coordenada correspondiente de la segunda tupla.
+esParMenor :: (Int, Int) -> (Int, Int) -> Bool
+esParMenor (a,b) (c,d) | a < c && b < d = True
+                       | otherwise = False
+                    
+-- c) distancia: calcula la distancia euclı́dea entre dos puntos de R2 .
+distancia :: (Float,Float) -> Float
+distancia (a, b) = sqrt(a^2 + b^2)
+
+-- d) sumaTerna: dada una terna de enteros, calcula la suma de sus tres elementos.
+sumaTerna :: (Int, Int, Int) -> Int
+sumaTerna (a,b,c) = a+b+c
+
+-- e) sumarSoloMultiplos: dada una terna de números enteros y un natural, calcula la suma de los elementos de la terna que son múltiplos del número natural.
+sumarSoloMultiplos :: (Int, Int, Int)-> Int -> Int
+sumarSoloMultiplos (a, b, c) d | estanRelacionados a d  && estanRelacionados b d  && estanRelacionados c d  = a+b+c
+                               | estanRelacionados a d  && estanRelacionados b d = a+b
+                               | estanRelacionados a d  && estanRelacionados c d = a+c
+                               | estanRelacionados b d  && estanRelacionados c d = b+c
+                               | estanRelacionados a d = a
+                               | estanRelacionados b d = b
+                               | estanRelacionados c d = c
+                               | otherwise = 0
+
+-- posPrimerPar: dada una terna de enteros, devuelve la posición del primer número par si es que hay alguno, o devuelve 4 si son todos impares.
+esPar :: Integer -> Bool
+esPar n | mod n 2 == 0 = True
+        | otherwise = False
+
+
+posPrimerPar :: (Integer, Integer, Integer)-> Integer
+posPrimerPar (a,b,c) | esPar a && esPar b && esPar c = a
+                     | esPar a && esPar b = a
+                     | esPar a && esPar c = a
+                     | esPar b && esPar c = b
+                     | esPar c = c
+                     | otherwise = 4
+
+-- Ejercicio 5. Implementar la función todosMenores :: (Integer, Integer, Integer) -> Bool
+
+f2 :: Integer -> Integer
+f2 x | x <= 7 =x^2
+     | x > 7 = 2*x-1
+
+g2 :: Integer -> Integer
+g2 y | esPar y = div y 2
+     | otherwise = 3*y+1
+
+todosMenores :: (Integer, Integer, Integer) -> Bool
+todosMenores (a,b,c) | f2 a > g2 a && f2 b > g2 b && f2 c > g2 c = True
+                     | otherwise = False
+
+-- Ejercicio 6
+type Anio = Integer
+type EsBisiesto = Bool
+bisiesto :: Anio -> EsBisiesto
+bisiesto x | mod x 4 /= 0 = False
+           | mod x 100 == 0 && mod x 400 /= 0 = False
+           | mod x 4 == 0 = True
+        
+bisiesto2 :: Anio -> EsBisiesto
+bisiesto2 x | mod x 400 == 0 = True
+            | mod x 100 == 0 = False
+            | mod x 4 == 0 = True
+            | otherwise = False
