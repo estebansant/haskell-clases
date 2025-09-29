@@ -173,3 +173,10 @@ sumaRacionales :: Integer ->Integer ->Float
 sumaRacionales n m | m==1=fromInteger n
                    | n==1=divisionIterandoElDenominador 1 m
                    | otherwise = divisionIterandoElDenominador n m + sumaRacionales (n-1) m     
+              
+-- Ejercicio 17
+esFibonacci :: Integer ->Bool
+esFibonacci n = buscarEnIndice 0
+       where buscarEnIndice i | n==fibonacci i = True
+                              | n < fibonacci i = False
+                              | otherwise = buscarEnIndice(i+1) 
