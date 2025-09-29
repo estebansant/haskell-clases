@@ -164,3 +164,12 @@ sumaConExponenteFijo q n m | m==1=q^(n+1)
 sumaPotencias :: Integer ->Integer ->Integer ->Integer
 sumaPotencias q n m | n == 1 = sumaConExponenteFijo q n m
                     | otherwise = sumaPotencias q (n-1) m + sumaConExponenteFijo q n m 
+              
+-- Ejercicio 15
+divisionIterandoElDenominador :: Integer -> Integer -> Float
+divisionIterandoElDenominador n m | m==1=fromInteger n
+                                  | otherwise = fromInteger n/ fromInteger m + divisionIterandoElDenominador n (m-1)  
+sumaRacionales :: Integer ->Integer ->Float
+sumaRacionales n m | m==1=fromInteger n
+                   | n==1=divisionIterandoElDenominador 1 m
+                   | otherwise = divisionIterandoElDenominador n m + sumaRacionales (n-1) m     
