@@ -134,3 +134,33 @@ factorial n | n==0=1
 eAprox :: Integer -> Float
 eAprox n | n==0=1
          | otherwise = 1 / fromIntegral (factorial n) + eAprox(n-1)
+
+e :: Float
+e = eAprox 10
+
+-- Ejercicio 12
+sucesion1 :: Integer -> Float
+sucesion1 n | n==1 = 2  
+            | otherwise =  2 + 1/sucesion1(n-1)
+
+raizDe2Aprox :: Integer ->Float
+raizDe2Aprox n | n==1=1
+               | otherwise = sucesion1 n -1
+
+-- Ejercicio 13
+sumaEnExponente :: Integer -> Integer -> Integer
+sumaEnExponente n m | m==1=n
+                    | otherwise = n^m + sumaEnExponente n (m-1) 
+dobleSuma :: Integer-> Integer-> Integer
+dobleSuma n m | m==1=n
+              | n==1=sumaEnExponente 1 m
+              | otherwise = dobleSuma (n-1) m + sumaEnExponente n m
+
+-- Ejercicio 14
+sumaConExponenteFijo :: Integer ->Integer ->Integer ->Integer
+sumaConExponenteFijo q n m | m==1=q^(n+1)
+                           | otherwise = q^(n+m) + sumaConExponenteFijo q n (m-1)
+
+sumaPotencias :: Integer ->Integer ->Integer ->Integer
+sumaPotencias q n m | n == 1 = sumaConExponenteFijo q n m
+                    | otherwise = sumaPotencias q (n-1) m + sumaConExponenteFijo q n m 
