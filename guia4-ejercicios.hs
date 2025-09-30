@@ -173,10 +173,62 @@ sumaRacionales :: Integer ->Integer ->Float
 sumaRacionales n m | m==1=fromInteger n
                    | n==1=divisionIterandoElDenominador 1 m
                    | otherwise = divisionIterandoElDenominador n m + sumaRacionales (n-1) m     
+
+-- Ejercicio 16
+-- a) Implementar menorDivisor :: Integer ->Integer que calcule el menor divisor (mayor que 1) de un natural n pasado como parámetro.
+menorDivisorDistintoDe1 :: Integer -> Integer -> Integer
+menorDivisorDistintoDe1 n m | mod n m ==0 = m
+                            | otherwise = menorDivisorDistintoDe1 n (m+1)
+
+
+menorDivisor :: Integer -> Integer
+menorDivisor n | n==1=1
+               | otherwise = menorDivisorDistintoDe1 n 2
+
+-- b) Implementar la función esPrimo :: Integer ->Bool que indica si un número natural pasado como parámetro es primo.
+esPrimo :: Integer -> Bool
+esPrimo n | n == 1 = False
+          | otherwise = menorDivisor n == n
+       
               
+-- c) Implementar la función sonCoprimos :: Integer ->Integer -> Bool que dados dos números naturales indica si no tienen algún divisor en común mayor estricto que 1.
+sonCoprimos :: Integer -> Integer ->Bool
+sonCoprimos n m | n == m = False
+                | mod n m == 0 = False
+                | mod m n == 0 = False  
+                | mod n (menorDivisor m) == 0 = False   
+                | mod m (menorDivisor n) == 0 = False   
+                | otherwise = esPrimo n /= esPrimo m   
+
+-- Me falta algo que no estoy viendo
+
+
+
 -- Ejercicio 17
 esFibonacci :: Integer ->Bool
 esFibonacci n = buscarEnIndice 0
        where buscarEnIndice i | n==fibonacci i = True
                               | n < fibonacci i = False
                               | otherwise = buscarEnIndice(i+1) 
+                            
+
+-- Ejercicio 18
+esPar :: Integer -> Bool
+esPar n | mod n 2 == 1 = False
+        | otherwise = mod n 2 == 0
+       
+numeroMayor :: Integer -> Integer -> Integer
+numeroMayor x y | x==y=x
+                | x>y = x
+                | otherwise = y
+              
+leerPenultimoDigito :: Integer -> Integer
+leerPenultimoDigito n = leerUltimoDigito (eliminarUltimoDigito n)
+
+mayorDigitoPar :: Integer ->Integer
+mayorDigitoPar n  | esPar (leerUltimoDigito n) == False = -1
+                  | esPar (leerUltimoDigito n) = numeroMayor (leerUltimoDigito n) (-1)
+                  | esPar (leerUltimoDigito n) && esPar(leerPenultimoDigito n) = numeroMayor (leerUltimoDigito n) (leerPenultimoDigito n)
+                  | otherwise = mayorDigitoPar (eliminarUltimoDigito n)
+              
+-- :(
