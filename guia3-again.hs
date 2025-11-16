@@ -34,33 +34,86 @@ k x = g (f x)
 -- Ejercicio 2. ⋆ Especificar e implementar las siguientes funciones, incluyendo su signatura.
 -- a) absoluto: calcula el valor absoluto de un número entero.
 
+absoluto :: Integer -> Integer
+absoluto x | x < 0 = -x
+      | x > 0 = x
+      | x == 0 = 0  
 
 -- b) maximoAbsoluto: devuelve el máximo entre el valor absoluto de dos números enteros.
+maximoAbsoluto :: Integer -> Integer -> Integer
+maximoAbsoluto x y | absoluto x > absoluto y = absoluto x
+                   | absoluto y > absoluto x = absoluto y
+                   | absoluto y == absoluto x = absoluto x
 
 
 -- c) maximo3: devuelve el máximo entre tres números enteros.
 
+maximo3 :: Integer -> Integer -> Integer -> Integer
+maximo3 x y z | x > y && x > z = x
+              | y > x && y > z = y
+              | z > x && z > y = z
+              | x == y && x > z = x
+              | x == z && x > y = x
+              | y == z && y > x = y
+              | x == z && x == y = x
 
 -- d) algunoEsCero: dados dos números racionales, decide si alguno es igual a 0 (resolverlo con y sin pattern matching).
 
+algunoEsCero :: Integer -> Integer -> Bool
+algunoEsCero x y | (x == 0 )|| (y == 0) = True
+                 | otherwise = False
+
+algunoEsCeroBis :: Integer -> Integer -> Bool
+algunoEsCeroBis 0 y = True
+algunoEsCeroBis x 0 = True
+algunoEsCeroBis x y = False
+
 
 -- e) ambosSonCero: dados dos números racionales, decide si ambos son iguales a 0 (resolverlo con y sin pattern matching).
+
+ambosSonCero :: Integer -> Integer -> Bool
+ambosSonCero x y | (x == 0) && (y == 0) = True
+                 | otherwise = False
+                
+ambosSonCeroBis :: Integer -> Integer -> Bool
+ambosSonCeroBis 0 0 = True
+ambosSonCeroBis x y = False
 
 
 -- f) enMismoIntervalo: dados dos números reales, indica si están relacionados por la relación de equivalencia en R cuyas
 -- clases de equivalencia son: (−∞, 3], (3, 7] y (7, ∞), o dicho de otra manera, si pertenecen al mismo intervalo.
 
+enMismoIntervalo :: Integer -> Integer -> Bool
+enMismoIntervalo x y | (x <= 3) && (y <= 3) = True
+                     | (x > 3 && x <= 7) && (y > 3 && y <= 7) = True
+                     | (x > 7) && (y > 7) = True
+                     | otherwise = False
 
 -- g) sumaDistintos: que dados tres números enteros calcule la suma sin sumar repetidos (si los hubiera).
 
+sumaDistintos :: Integer -> Integer -> Integer -> Integer
+sumaDistintos x y z | (x == y) && (x == z) = 0
+                    | (x /= y) && (x /= z) && (y /= z) = x + y + z
+                    | x == y = x + z
+                    | x == z = x + y
+                    | otherwise = x + y
 
 -- h) esMultiploDe: dados dos números naturales, decide si el primero es múltiplo del segundo.
 
+esMultiploDe :: Integer -> Integer -> Bool
+esMultiploDe x y | mod x y == 0 = True
+                 | otherwise = False
 
 -- i) digitoUnidades: dado un número entero, extrae su dı́gito de las unidades.
 
+digitoUnidades :: Integer -> Integer
+digitoUnidades x = mod x 10
+
 
 -- j) digitoDecenas: dado un número entero mayor a 9, extrae su dı́gito de las decenas.
+
+digitoDecenas :: Integer -> Integer
+digitoDecenas x = div (mod x 100) 10
 
 
 
