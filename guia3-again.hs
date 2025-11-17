@@ -1,3 +1,4 @@
+import Language.Haskell.TH (cxt)
 -- Ejercicio 1.
 -- a) Implementar la función parcial f :: Integer -> Integer definida por extensión de la siguiente manera:
 -- f (1) = 8
@@ -136,15 +137,27 @@ estanRelacionados a b | mod a b == 0 = True
 -- números.
 -- a) productoInterno: calcula el producto interno entre dos tuplas de R × R.
 
+productoInterno :: (Int, Int) -> (Int, Int) -> Int
+productoInterno (a,b) (c,d) = (a*c)+(b*d)
+
 
 -- b) esParMenor: dadas dos tuplas de R × R, decide si cada coordenada de la primera tupla es menor a la coordenada correspondiente de la segunda tupla.
+
+esParMenor :: (Int,Int) -> (Int,Int) ->Bool
+esParMenor (a,b) (c,d) | (a<c) && (b < d) = True
+                       | otherwise = False
 
 
 -- c) distancia: calcula la distancia euclı́dea entre dos puntos de R2 .
 
+distancia :: (Float,Float) -> (Float, Float) -> Float
+distancia (a,b) (c,d) = sqrt((c-a)**2 + (d-b)**2)
+
 
 -- d) sumaTerna: dada una terna de enteros, calcula la suma de sus tres elementos.
 
+sumaTerna :: (Int, Int, Int) -> Int
+sumaTerna (a,b,c) = a+b+c
 
 -- e) sumarSoloMultiplos: dada una terna de números enteros y un natural, calcula la suma de los elementos de la terna que son múltiplos del número natural.
 -- Por ejemplo:
@@ -152,14 +165,36 @@ estanRelacionados a b | mod a b == 0 = True
 -- sumarSoloMultiplos (66,21,4) 5 ⇝ 0
 -- sumarSoloMultiplos (-30,2,12) 3 ⇝ -18
 
+valorSiEsMultiplo :: Int -> Int -> Int
+valorSiEsMultiplo num divisor | mod num divisor == 0 = num
+                              | otherwise = 0
+
+sumarSoloMultiplos :: (Int,Int,Int) -> Int -> Int
+sumarSoloMultiplos (a,b,c) x = valorSiEsMultiplo a x + valorSiEsMultiplo b x + valorSiEsMultiplo c x
+
 
 -- f) posPrimerPar: dada una terna de enteros, devuelve la posición del primer número par si es que hay alguno, o devuelve 4 si son todos impares.
+
+esPar :: Int -> Bool
+esPar x | mod x 2 == 0 = True
+        | otherwise = False
+
+posPrimerPar :: (Int, Int, Int) -> Int
+posPrimerPar (a,b,c) | esPar a = 1
+                     | esPar b = 2
+                     | esPar c = 3
+                     | otherwise = 4
 
 
 -- g) crearPar :: a -> b -> (a, b): a partir de dos componentes, crea un par con esos valores. Debe funcionar para elementos de cualquier tipo.
 
+crearPar :: a -> b -> (a,b)
+crearPar a b = (a,b)
 
 -- h) invertir :: (a, b) -> (b, a): invierte los elementos del par pasado como parámetro. Debe funcionar para elementos de cualquier tipo.
+
+invertir :: (a,b) ->(b,a)
+invertir (a,b) = (b,a)
 
 
 -- i) Reescribir los ejercicios productoInterno, esParMenor y distancia usando el siguiente renombre de tipos:
