@@ -128,6 +128,10 @@ digitoDecenas x = div (mod x 100) 10
 -- porque existe k = −4 tal que 82 + 8 × 2 × (−4) = 0
 -- porque no existe un k entero tal que 72 + 7 × 3 × k = 0
 
+estanRelacionados:: Integer -> Integer -> Bool
+estanRelacionados a b | mod a b == 0 = True
+                      | otherwise = False
+
 -- Ejercicio 4. ⋆ Especificar e implementar las siguientes funciones utilizando tuplas para representar pares y ternas de
 -- números.
 -- a) productoInterno: calcula el producto interno entre dos tuplas de R × R.
