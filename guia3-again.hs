@@ -257,8 +257,21 @@ bisiesto anio | (mod anio 4 /= 0) || (mod anio 100 == 0 && mod anio 400 /= 0) = 
 -- distanciaManhattan (2, 3, 4) (7, 3, 8) ⇝ 9
 -- distanciaManhattan ((-1), 0, (-8.5)) (3.3, 4, (-4)) ⇝ 12.8
 
+absolutoF :: Float -> Float
+absolutoF x | x < 0 = -x
+            | x > 0 = x
+            | x == 0 = 0
+
+distanciaManhattan :: (Float,Float,Float) -> (Float,Float,Float) -> Float
+distanciaManhattan (x1,x2,x3) (x4,x5,x6) = absolutoF (x1 - x4) + absolutoF (x2 - x5) + absolutoF (x3 - x6)
+
 
 -- b) Reimplementar la función teniendo en cuenta el siguiente tipo: type Punto3D = (Float, Float, Float)
+
+type Punto3D = (Float,Float,Float)
+
+distanciaManhattanBis :: Punto3D -> Punto3D -> Float
+distanciaManhattanBis (x1,x2,x3) (x4,x5,x6) = absolutoF (x1 - x4) + absolutoF (x2 - x5) + absolutoF (x3 - x6)
 
 
 -- Ejercicio 8. Implementar la función comparar :: Integer -> Integer -> Integer
