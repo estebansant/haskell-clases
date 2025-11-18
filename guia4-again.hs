@@ -68,7 +68,10 @@ medioFact n = n*medioFact(n-2)
 -- asegura: { resultado = true ↔ todos los dı́gitos de n son iguales }
 -- }
 
-
+todosDigitosIguales :: Integer -> Bool
+todosDigitosIguales n | n < 10 = True
+                      | mod n 10 /= mod (div n 10) 10 = False
+                      | otherwise = todosDigitosIguales (div n 10)
 
 
 -- Ejercicio 7. Implementar la función iesimoDigito :: Integer ->Integer ->Integer que dado un n ∈ Z mayor o igual
