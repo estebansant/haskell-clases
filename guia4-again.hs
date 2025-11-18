@@ -6,7 +6,17 @@
 -- asegura: { resultado = f ib(n) }
 -- }
 
+fibonacci :: Integer -> Integer
+fibonacci n | n == 0 = 0
+            | n == 1 = 1
+            | otherwise = fibonacci (n-1) + fibonacci (n-2)
+        
+-- Factorial
 
+factorial :: Integer -> Integer
+factorial n | n == 0 =1
+            | n == 1 = 1
+            | otherwise = n * factorial (n-1)
 
 -- Ejercicio 2. Implementar una función parteEntera :: Float ->Integer según la siguiente especificación:
 -- problema parteEntera (x: R) : Z {
@@ -14,17 +24,28 @@
 -- asegura: { resultado ≤ x < resultado + 1 }
 -- }
 
+parteEntera :: Float -> Integer
+parteEntera 0 = 0
+parteEntera x | x<0 = -1
+              | otherwise = parteEntera(x-1) + 1
+
 
 
 -- Ejercicio 3. Especificar e implementar la función esDivisible :: Integer ->Integer ->Bool que dados dos números
 -- naturales determinar si el primero es divisible por el segundo. No está permitido utilizar las funciones mod ni div.
 
-
+esDivisible :: Integer -> Integer -> Bool
+esDivisible 0 b = True
+esDivisible a b | a < 0 = False
+                | otherwise = esDivisible (a-b) b
 
 
 -- Ejercicio 4. Especificar e implementar la función sumaImpares :: Integer ->Integer que dado n ∈ N sume los primeros
 -- n números impares. Por ejemplo: sumaImpares 3 ; 1+3+5 ⇝ 9 .
 
+sumaImpares :: Integer -> Integer
+sumaImpares n | n == 0 = 0
+              | otherwise = 2*n -1 + sumaImpares (n-1)
 
 
 -- Ejercicio 5. Implementar la función medioFact :: Integer ->Integer que dado n ∈ N calcula n!! = n (n − 2)(n − 4) · · ·
