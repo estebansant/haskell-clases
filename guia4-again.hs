@@ -56,6 +56,7 @@ sumaImpares n | n == 0 = 0
 
 
 
+
 -- Ejercicio 6. Implementar la función todosDigitosIguales :: Integer ->Bool que determina si todos los dı́gitos de un
 -- número natural son iguales, es decir:
 -- problema todosDigitosIguales (n: Z) : B {
