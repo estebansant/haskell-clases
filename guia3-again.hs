@@ -224,8 +224,6 @@ todosMenores (a,b,c) | (fn a > gn a) && (fn b > gn b) && (fn c > gn c) = True
                      | otherwise = False
 
 
-
-
 -- Ejercicio 6. Usando los siguientes tipos:
 -- type Anio = Integer
 -- type EsBisiesto = Bool
@@ -239,6 +237,13 @@ todosMenores (a,b,c) | (fn a > gn a) && (fn b > gn b) && (fn c > gn c) = True
 -- bisiesto 1900 ⇝ False
 -- bisiesto 1904 ⇝ True
 -- bisiesto 2000 ⇝ True
+
+type Anio = Integer
+type EsBisiesto = Bool
+
+bisiesto :: Anio -> EsBisiesto
+bisiesto anio | (mod anio 4 /= 0) || (mod anio 100 == 0 && mod anio 400 /= 0) = False
+              | otherwise = True
 
 -- Ejercicio 7.
 -- a) Implementar la función:
