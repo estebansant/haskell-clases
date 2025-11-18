@@ -86,6 +86,17 @@ todosDigitosIguales n | n < 10 = True
 -- asegura: { n ̸= 0 → (n div 10resultado−1 > 0 ∧ n div 10resultado = 0) }
 -- }
 
+cantDigitos :: Integer -> Integer
+cantDigitos n | n <10 = 1
+              | otherwise = 1 + cantDigitos (div n 10)
+
+iesimoDigito :: Integer -> Integer -> Integer
+iesimoDigito n i = mod (div n (10 ^ (cantDigitos n - i))) 10
+
+iesimoDigitoBis :: Integer -> Integer -> Integer
+iesimoDigitoBis n i | cantDigitos n == i = mod n 10
+                    | otherwise = iesimoDigitoBis (div n 10) i
+
 -- Ejercicio 8. Especificar e implementar la función sumaDigitos :: Integer ->Integer que calcula la suma de dı́gitos de
 -- un número natural. Para esta función pueden utilizar div y mod.
 
