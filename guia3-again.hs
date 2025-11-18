@@ -293,6 +293,13 @@ distanciaManhattanBis (x1,x2,x3) (x4,x5,x6) = absolutoF (x1 - x4) + absolutoF (x
 -- comparar 2312 7 ⇝ 1 porque 2312 ≺ 7 y 1 + 2 < 0 + 7.
 -- comparar 45 172 ⇝ 0 porque no vale 45 ≺ 172 ni tampoco 172 ≺ 45.
 
+sumaUltimosDosDigitos :: Integer -> Integer
+sumaUltimosDosDigitos x = mod (absoluto x) 10 + mod (absoluto (div x 10)) 10
+
+comparar :: Integer -> Integer -> Integer
+comparar a b | sumaUltimosDosDigitos a < sumaUltimosDosDigitos b = 1
+             | sumaUltimosDosDigitos a > sumaUltimosDosDigitos b = -1
+             | sumaUltimosDosDigitos a == sumaUltimosDosDigitos b = 0
 
 -- Ejercicio 9. A partir de las siguientes implementaciones en Haskell, describir en lenguaje natural qué hacen y especificarlas.
 -- a) f1 :: Float -> Float
