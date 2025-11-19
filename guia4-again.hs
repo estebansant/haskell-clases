@@ -100,21 +100,95 @@ iesimoDigitoBis n i | cantDigitos n == i = mod n 10
 -- Ejercicio 8. Especificar e implementar la función sumaDigitos :: Integer ->Integer que calcula la suma de dı́gitos de
 -- un número natural. Para esta función pueden utilizar div y mod.
 
+leerUltimoDigito :: Integer -> Integer
+leerUltimoDigito x = mod x 10
+
+eliminarUltimoDigito :: Integer -> Integer
+eliminarUltimoDigito x = div x 10
+
+sumaDigitos :: Integer -> Integer
+sumaDigitos x | x < 10 = x
+              | otherwise = leerUltimoDigito x + sumaDigitos (eliminarUltimoDigito x)
+
 
 
 -- Ejercicio 9. Especificar e implementar una función esCapicua :: Integer ->Bool que dado n ∈ N≥0 determina si n es
 -- un número capicúa.
 
+recuperarPrimerDigito :: Integer -> Integer
+recuperarPrimerDigito x | x < 10 = x
+                        | otherwise = recuperarPrimerDigito (div x 10)
+
+eliminarPrimerDigito :: Integer -> Integer
+eliminarPrimerDigito x = iesimoDigito x 1
+
+esCapicua :: Integer -> Bool
+esCapicua n | n < 10 = True
+            | recuperarPrimerDigito n /= leerUltimoDigito n = False
+            | otherwise = esCapicua (eliminarPrimerDigito (eliminarUltimoDigito n))
+
 -- Ejercicios que se definen con sumatorias y sucesiones:
 
+-- Ejercicio 10 a:
+
+f1 :: Integer -> Integer
+f1 n | n == 0 = 1
+     | otherwise = 2^n + f1 (n-1)
+
+-- Ejercicio 10 b:
+
+f2 :: Integer -> Integer -> Integer
+f2 n q | n == 1 = q
+       | otherwise = q^n + f2 (n-1) q
+
+-- Ejercicio 10 c :
+
+f3 :: Integer -> Integer -> Integer
+f3 n q | n == 1 = q + q ^(n+1)
+       | otherwise = q^(n*2) + q^(n*2-1) + f3 (n - 1) q
+
+    
+-- Tambien se puede pensar usando una funcion auxiliar que me haga una sumatoria normal, pero en vez de pasarle n le paso 2n. lo aplico a continuacion
+
+f4Aux :: Integer -> Integer -> Integer -> Integer
+f4Aux m q n | m == n = q^n
+            | otherwise = q ^m + f4Aux (m-1) q n
 
 
+f4 :: Integer -> Integer -> Integer
+f4 n q = f4Aux (2*n) q n
 
 
+-- Ejercicio 11
+
+factorialAux :: Integer -> Integer
+factorialAux n | n == 0 =1
+               | otherwise = n * factorialAux (n-1)
+
+eAprox :: Integer -> Float
+eAprox n | n == 0 = 1
+         | otherwise = 1/(fromIntegral (factorialAux n)) + eAprox (n-1)
 
 
+-- Ejercicio 12
+-- Completar
+sucesionAux :: Integer -> Float
+sucesionAux m | m <= 1 = 2 + 1/2
+              | otherwise = 1/(sucesionAux (m-1))
 
+raizDe2Aprox :: Integer -> Float
+raizDe2Aprox n | n==1 = 2
+               | otherwise = 1/(sucesionAux (n-1)) + raizDe2Aprox (n-1)
 
+-- Ejercicio 13
+
+sumaSobreM :: Integer -> Integer -> Integer
+sumaSobreM n m | m == 1 = n
+               | otherwise = n ^m + sumaSobreM n (m-1)
+
+sumaDoble :: Integer -> Integer -> Integer
+sumaDoble n m | n == 1 = sumaSobreM n m 
+              | otherwise = sumaSobreM n m + sumaDoble (n-1) m
 
 -- Ejercicio 15. Implementar una función sumaRacionales :: Integer ->Integer ->Float que dados dos naturales n, m
 -- sume todos los números racionales de la forma p/q con 1 ≤ p ≤ n y 1 ≤ q ≤ m, es decir:
@@ -167,4 +241,3 @@ iesimoDigitoBis n i | cantDigitos n == i = mod n 10
 -- m, n , r ∈ N≥0 , cuente cuántos pares (p, q) con 0 ≤ p ≤ m y 0 ≤ q ≤ n satisfacen que p2 + q 2 ≤ r2 . Por ejemplo:
 -- pitagoras 3 4 5 ⇝ 20
 -- pitagoras 3 4 2 ⇝ 6
-
