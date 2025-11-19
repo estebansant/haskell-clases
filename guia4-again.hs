@@ -204,17 +204,17 @@ sumaDoble n m | n == 1 = sumaSobreM n m
 -- d) Implementar la función nEsimoPrimo :: Integer ->Integer que devuelve el n-ésimo primo (n ≥ 1). Recordar que el
 -- primer primo es el 2, el segundo es el 3, el tercero es el 5, etc.
 
-divideA :: Integer -> Integer -> Integer
-divideA n m | n == 0 = 1
-            | n < 0 = 0
-            | otherwise = 1 + divideA(n-m) m
+divideA :: Integer -> Integer -> Bool
+divideA n m | n == 0 = True
+            | n < 0 = False
+            | otherwise = divideA(n-m) m
 
-cont :: Integer 
+menorDivisorDesde :: Integer -> Integer -> Integer
+menorDivisorDesde n m | divideA n m == True = m
+                      | otherwise = menorDivisorDesde n (m+1)
 
 menorDivisor :: Integer -> Integer
-menorDivisor n | mod n 2 == 0 = 2
-               | mod n 3 == 0 = 3
-               | otherwise = m divideA n n
+menorDivisor n = menorDivisorDesde n 2
 
 -- Ejercicio 17. Implementar la función esFibonacci :: Integer ->Bool según la siguiente especificación:
 -- problema esFibonacci (n: Z) : B {
