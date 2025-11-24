@@ -233,6 +233,32 @@ menorDivisorDesde n m | divideA n m == True = m
 menorDivisor :: Integer -> Integer
 menorDivisor n = menorDivisorDesde n 2
 
+--------
+
+esPrimo :: Integer -> Bool
+esPrimo n | n == 1 = False
+          | n == menorDivisor n = True
+          | otherwise = False
+
+-------
+
+mcd :: Integer -> Integer -> Integer
+mcd a b | b == 0 = a
+        | otherwise = mcd b (mod a b)
+
+sonCoprimos :: Integer -> Integer -> Bool
+sonCoprimos n m = mcd n m == 1
+
+-------
+
+buscarPrimo :: Integer -> Integer -> Integer
+buscarPrimo n m | esPrimo m && n == 1 = m
+                | esPrimo m == True = buscarPrimo (n-1) (m+1)
+                | otherwise = buscarPrimo n (m+1)
+
+nEsimoPrimo :: Integer -> Integer
+nEsimoPrimo n = buscarPrimo n 2 
+
 -- Ejercicio 17. Implementar la función esFibonacci :: Integer ->Bool según la siguiente especificación:
 -- problema esFibonacci (n: Z) : B {
 -- requiere: { n ≥ 0 }
