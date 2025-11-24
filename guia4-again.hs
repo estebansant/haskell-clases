@@ -204,7 +204,13 @@ sumaPotencias q n m | n == 1 = sumaPotM q 1 m
 -- Ejercicio 15. Implementar una función sumaRacionales :: Integer ->Integer ->Float que dados dos naturales n, m
 -- sume todos los números racionales de la forma p/q con 1 ≤ p ≤ n y 1 ≤ q ≤ m, es decir:
 
+sumaRacM :: Integer -> Integer -> Float
+sumaRacM n m | m ==1 = fromIntegral n
+             | otherwise = (fromIntegral n)/(fromIntegral m) + sumaRacM n (m-1)
 
+sumaRacionales :: Integer -> Integer -> Float
+sumaRacionales n m | n == 1 = sumaRacM 1 m
+                   | otherwise = sumaRacM n m + sumaRacionales (n-1) m 
 
 -- Ejercicio 16. Recordemos que un entero p > 1 es primo si y sólo si no existe un entero k tal que 1 < k < p y k divida a p.
 -- a) Implementar menorDivisor :: Integer ->Integer que calcule el menor divisor (mayor que 1) de un natural n pasado
