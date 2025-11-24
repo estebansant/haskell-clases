@@ -184,11 +184,22 @@ raizDe2Aprox n | n==1 = 2
 
 sumaSobreM :: Integer -> Integer -> Integer
 sumaSobreM n m | m == 1 = n
-               | otherwise = n ^m + sumaSobreM n (m-1)
+               | otherwise = n^m + sumaSobreM n (m-1)
 
 sumaDoble :: Integer -> Integer -> Integer
 sumaDoble n m | n == 1 = sumaSobreM n m 
               | otherwise = sumaSobreM n m + sumaDoble (n-1) m
+
+-- Ejercicio 14. Especificar e implementar una función sumaPotencias :: Integer ->Integer ->Integer ->Integer que dados tres naturales q, n, m sume todas las potencias de la forma q a+b con 1 ≤ a ≤ n y 1 ≤ b ≤ m.
+
+sumaPotM :: Integer -> Integer -> Integer -> Integer
+sumaPotM q n m | m == 1 = q ^ (n+1)
+               | otherwise = q ^ (n+m) + sumaPotM q n (m-1)
+
+
+sumaPotencias :: Integer -> Integer -> Integer -> Integer
+sumaPotencias q n m | n == 1 = sumaPotM q 1 m
+                    | otherwise = sumaPotM q n m + sumaPotencias q (n-1) m
 
 -- Ejercicio 15. Implementar una función sumaRacionales :: Integer ->Integer ->Float que dados dos naturales n, m
 -- sume todos los números racionales de la forma p/q con 1 ≤ p ≤ n y 1 ≤ q ≤ m, es decir:
