@@ -82,5 +82,34 @@ comparacion e (x:xs) | e == x = comparacion e xs
 
 eliminarRepetidos :: (Eq t) => [t] -> [t]
 eliminarRepetidos [] = []
-eliminarRepetidos (x:xs) | comparacion x (x:xs) == (x:xs) = x : eliminarRepetidos xs
-                         | otherwise = x : eliminarRepetidos (comparacion x (x:xs))
+eliminarRepetidos (x:xs) = x : eliminarRepetidos (comparacion x (x:xs))
+
+--h)
+
+existeElemento :: (Eq t) => t -> [t] -> Bool
+existeElemento e [] = False
+existeElemento e (x:xs) | e == x = True
+                        | otherwise = existeElemento e xs
+
+subconjunto :: (Eq t) => [t] -> [t] -> Bool
+subconjunto [] _ = True
+subconjunto (x:xs) ys = (existeElemento x ys) && (subconjunto xs ys)
+
+mismosElementos :: (Eq t) => [t] -> [t] -> Bool
+mismosElementos l1 l2 = (subconjunto l1 l2) && (subconjunto l2 l1)
+
+--i)
+
+listaInvertida :: (Eq t) => [t] -> [t]
+listaInvertida [] = []
+listaInvertida (x:xs) = listaInvertida xs ++ [x]
+
+igualReverso :: (Eq t) => [t] -> [t] -> Bool
+igualReverso [] [] = True
+igualReverso (x:xs) (y:ys) | x == y = igualReverso xs ys
+                           | otherwise = False
+
+capicua :: (Eq t) => [t] -> Bool
+capicua [] = True
+capicua [x] = True
+capicua (x:xs) = igualReverso (x:xs) (listaInvertida (x:xs))
