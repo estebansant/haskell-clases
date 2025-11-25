@@ -187,3 +187,98 @@ eliminarMaximo n (x:xs) = quitar n (x:xs)
 ordenar :: [Integer] -> [Integer]
 ordenar [] = []
 ordenar (x:xs) = ordenar (eliminarMaximo (maximo (x:xs)) (x:xs)) ++ [maximo(x:xs)]
+
+-- Ejercicio 4
+--a)
+sacarBlancosRepetidos :: [Char] -> [Char]
+sacarBlancosRepetidos [] = []
+sacarBlancosRepetidos [x] = [x]
+sacarBlancosRepetidos (x:y:xs) | (x == ' ' && y == ' ') =  sacarBlancosRepetidos (y:xs)
+                               | otherwise = x: sacarBlancosRepetidos (y:xs) 
+
+--b)
+
+contarPalabras :: [Char] -> Integer
+contarPalabras [] = 0
+contarPalabras [x] = 1
+contarPalabras (x:xs) | x == ' ' = 1 + contarPalabras xs
+                      | otherwise = contarPalabras xs
+
+--c) Medio mal hecho
+
+obtenerPalabra :: [Char] -> [Char]
+obtenerPalabra [] = []
+obtenerPalabra (x:xs) | x == ' ' = []
+                      | otherwise = x : obtenerPalabra xs
+
+eliminarPalabra :: [Char] -> [Char]
+eliminarPalabra [] = []
+eliminarPalabra (x:xs) | x == ' ' = xs
+                       | otherwise = eliminarPalabra xs 
+
+palabras :: [Char] -> [[Char]]
+palabras [] = []
+palabras (' ':xs) = palabras xs
+palabras xs = obtenerPalabra xs : palabras (eliminarPalabra xs)
+
+-- Ejercicio 5
+--a)
+
+acumulador :: (Num t) => [t] -> t
+acumulador [] = 0
+acumulador (x:xs) = x + acumulador xs
+
+eliminarUltimoElemento :: (Num t) => [t] -> [t]
+eliminarUltimoElemento [x] = []
+eliminarUltimoElemento (x:xs) = x : eliminarUltimoElemento xs
+
+sumaAcumulada :: (Num t) => [t] -> [t]
+sumaAcumulada [] = []
+sumaAcumulada (x:xs) = sumaAcumulada (eliminarUltimoElemento (x:xs)) ++ [acumulador (x:xs)]
+
+--b) Descomponer en numeros primos
+
+divideA :: Integer -> Integer -> Bool
+divideA n m | n == 0 = True
+            | n < 0 = False
+            | otherwise = divideA(n-m) m
+
+menorDivisorDesde :: Integer -> Integer -> Integer
+menorDivisorDesde n m | divideA n m == True = m
+                      | otherwise = menorDivisorDesde n (m+1)
+
+menorDivisor :: Integer -> Integer
+menorDivisor n = menorDivisorDesde n 2
+
+esPrimo :: Integer -> Bool
+esPrimo n | n == 1 = False
+          | n == menorDivisor n = True
+          | otherwise = False
+
+buscarPrimo :: Integer -> Integer -> Integer
+buscarPrimo n m | esPrimo m && n == 1 = m
+                | esPrimo m == True = buscarPrimo (n-1) (m+1)
+                | otherwise = buscarPrimo n (m+1)
+
+nEsimoPrimo :: Integer -> Integer
+nEsimoPrimo n = buscarPrimo n 2
+
+loDivideElPrimo :: Integer -> Integer -> [Integer]
+loDivideElPrimo 1 _ = []
+loDivideElPrimo x n | mod x (nEsimoPrimo n) == 0 = (nEsimoPrimo n) : loDivideElPrimo (div x (nEsimoPrimo n)) (n)
+                    | otherwise = loDivideElPrimo x (n+1)
+
+descomponerEnPrimos :: [Integer] -> [[Integer]]
+descomponerEnPrimos [] = []
+descomponerEnPrimos (x:xs) = loDivideElPrimo x 1 : descomponerEnPrimos xs
+
+-- Una alternativa: (el codigo es mas veloz y no hay que calcular todos los primos)
+
+descomponerEnPrimosBis :: [Integer] -> [[Integer]]
+descomponerEnPrimosBis [] = []
+descomponerEnPrimosBis (x:xs) = factorizar x 2 : descomponerEnPrimosBis xs
+
+factorizar :: Integer -> Integer -> [Integer]
+factorizar 1 _ = []
+factorizar n c | mod n c == 0 = c : factorizar (div n c) c 
+               | otherwise = factorizar n (c + 1)
