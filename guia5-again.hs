@@ -73,10 +73,14 @@ quitarTodos e (x:xs) | e == x = quitarTodos e xs
                      | otherwise = x : quitarTodos e xs
 
 --g)
+
+comparacion :: (Eq t) => t -> [t] -> [t]
+comparacion e [] = []
+comparacion e (x:xs) | e == x = comparacion e xs
+                     | otherwise = x : comparacion e xs
+
+
 eliminarRepetidos :: (Eq t) => [t] -> [t]
 eliminarRepetidos [] = []
-eliminarRepetidos (x:y:xs) | x == y = esDistinto x (x:xs)
-                           | otherwise = eliminarRepetidos (y:xs)
-    where
-        esDistinto x (y:ys) | x == y = quitar x (y:ys)
-        esDistinto x (y:ys) | otherwise = esDistinto x ys 
+eliminarRepetidos (x:xs) | comparacion x (x:xs) == (x:xs) = x : eliminarRepetidos xs
+                         | otherwise = x : eliminarRepetidos (comparacion x (x:xs))
