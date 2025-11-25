@@ -113,3 +113,77 @@ capicua :: (Eq t) => [t] -> Bool
 capicua [] = True
 capicua [x] = True
 capicua (x:xs) = igualReverso (x:xs) (listaInvertida (x:xs))
+
+-- Ejercicio 3
+
+--a) Sumatoria
+sumatoria2 :: [Integer] -> Integer
+sumatoria2 [] = 0
+sumatoria2 (x:xs) = x + sumatoria xs
+
+--b) Productoria
+productoria :: [Integer] -> Integer
+productoria [] = 1
+productoria (x:xs) = x * productoria xs
+
+--c) Maximo
+compararMayor :: Integer -> [Integer] -> Integer
+compararMayor e [] = e
+compararMayor e (x:xs) | e >= x = compararMayor e xs
+                       | otherwise = compararMayor x xs
+
+maximo :: [Integer] -> Integer
+maximo (x:xs) = compararMayor x xs
+
+--d) SumarN
+
+sumarN :: Integer -> [Integer] -> [Integer]
+sumarN n [] = []
+sumarN n (x:xs) = (x+n) : sumarN n xs
+
+--e) SumarElPrimero
+
+sumarElPrimero :: [Integer] -> [Integer]
+sumarElPrimero (x:xs) = sumarN x (x:xs)
+
+--f) SumarElUltimo
+ultimoReverso :: [Integer] -> [Integer]
+ultimoReverso [] = []
+ultimoReverso (x:xs) = ultimoReverso xs ++ [x]
+
+sumarElUltimo :: [Integer] -> [Integer]
+sumarElUltimo (x:xs) = ultimoReverso (sumarElPrimero (ultimoReverso (x:xs)))
+
+--g) Pares
+
+esElPar :: Integer -> Bool
+esElPar n = mod n 2 == 0
+
+pares :: [Integer] -> [Integer]
+pares [] = []
+pares (x:xs) | esElPar x == True = x : pares xs
+             | otherwise = pares xs
+
+--h) MultiplosDeN
+
+loDivideN :: Integer -> [Integer] -> Bool
+loDivideN n (x:xs) = mod x n == 0 
+
+multiplosDeN :: Integer -> [Integer] -> [Integer]
+multiplosDeN n [] = []
+multiplosDeN n (x:xs) | loDivideN n (x:xs) = x : multiplosDeN n xs
+                      | otherwise = multiplosDeN n xs
+
+--i) Ordenar
+
+invertirOrden :: [Integer] -> [Integer]
+invertirOrden [] = []
+invertirOrden (x:xs) = invertirOrden xs ++ [x]
+
+eliminarMaximo :: Integer -> [Integer] -> [Integer]
+eliminarMaximo n [] = []
+eliminarMaximo n (x:xs) = quitar n (x:xs)
+
+ordenar :: [Integer] -> [Integer]
+ordenar [] = []
+ordenar (x:xs) = ordenar (eliminarMaximo (maximo (x:xs)) (x:xs)) ++ [maximo(x:xs)]
