@@ -265,6 +265,18 @@ nEsimoPrimo n = buscarPrimo n 2
 -- asegura: { resultado = true ↔ n es algún valor de la secuencia de Fibonacci definida en el ejercicio 1}
 -- }
 
+-- fibonacci :: Integer -> Integer
+-- fibonacci n | n == 0 = 0
+--             | n == 1 = 1
+--             | otherwise = fibonacci (n-1) + fibonacci (n-2)
+
+verificarFibo :: Integer -> Integer -> Integer -> Bool
+verificarFibo n a b | a == n = True
+                     | a > n = False
+                     | otherwise = verificarFibo n b (a + b)
+
+esFibonacci :: Integer -> Bool
+esFibonacci n = verificarFibo n 0 1
 
 
 -- Ejercicio 18. Implementar una función mayorDigitoPar :: Integer ->Integer según la siguiente especificación:
@@ -273,6 +285,23 @@ nEsimoPrimo n = buscarPrimo n 2
 -- asegura: { resultado es el mayor de los dı́gitos pares de n. Si n no tiene ningún dı́gito par, entonces resultado es -1.
 -- }
 
+obtenerDigito :: Integer -> Integer
+obtenerDigito n = mod n 10
+
+obternerRestoNumero :: Integer -> Integer
+obternerRestoNumero n = div n 10
+
+esPar:: Integer -> Bool
+esPar n | mod n 2 == 0 = True
+        | otherwise = False
+
+buscarMayor :: Integer -> Integer -> Integer
+buscarMayor n max | n == 0 = max
+                  | esPar (obtenerDigito n) && obtenerDigito n > max = buscarMayor (obternerRestoNumero n) (obtenerDigito n)
+                  | otherwise = buscarMayor (obternerRestoNumero n) max
+
+mayorDigitoPar :: Integer -> Integer
+mayorDigitoPar n = buscarMayor n (-1)
 
 
 -- }
@@ -282,6 +311,18 @@ nEsimoPrimo n = buscarPrimo n 2
 -- asegura: { resultado = true ↔ n es igual a la suma de los m primeros números primos, para algún m.}
 -- }
 
+irSumando :: Integer -> Integer -> Bool
+irSumando m n = verificarSuma n (nEsimoPrimo m + nEsimoPrimo (m+1))
+
+verificarSuma :: Integer -> Integer -> Bool
+verificarSuma n primo | n == 0 = False
+                      | n == 1 = False
+                      | n == primo = True
+                      | primo > n = False
+                      | otherwise = irSumando primo n
+
+esSumaInicialDePrimos :: Integer -> Bool
+esSumaInicialDePrimos n = verificarSuma n 1
 
 
 -- Ejercicio 20. Especificar e implementar la función tomaValorMax :: Integer ->Integer ->Integer que dado un número
