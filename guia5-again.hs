@@ -282,3 +282,39 @@ factorizar :: Integer -> Integer -> [Integer]
 factorizar 1 _ = []
 factorizar n c | mod n c == 0 = c : factorizar (div n c) c 
                | otherwise = factorizar n (c + 1)
+
+-- Ejercicio 6
+--a)
+
+type Texto = [Char]
+type Nombre = Texto
+type Telefono = Texto
+type Contacto = (Nombre, Telefono)
+type ContactosTel = [Contacto]
+
+enLosContactos :: Nombre ->ContactosTel ->Bool
+enLosContactos _ [] = False
+enLosContactos persona (x:xs) | persona == fst (x) = True
+                              | otherwise = enLosContactos persona xs
+
+--b)
+
+agregarContacto :: Contacto -> ContactosTel -> ContactosTel
+agregarContacto (persona,numero) [] = [(persona,numero)]
+agregarContacto (persona,numero) (x:xs) | persona == fst x = (persona,numero):xs
+                                        | otherwise = x : agregarContacto (persona,numero) xs
+
+--c)
+eliminarContacto :: Nombre -> ContactosTel -> ContactosTel
+eliminarContacto _ [] = []
+eliminarContacto persona ((nombre,numero):xs) | persona == nombre = eliminarContacto persona xs
+                                              | otherwise = (nombre,numero) : eliminarContacto persona xs
+
+-- Ejercicio 7
+
+type Identificacion = Integer
+type Ubicacion = Texto
+type Estado = (Disponibilidad, Ubicacion)
+type Locker = (Identificacion, Estado)
+type MapaDeLockers = [Locker]
+type Disponibilidad = Bool
