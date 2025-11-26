@@ -318,3 +318,86 @@ type Estado = (Disponibilidad, Ubicacion)
 type Locker = (Identificacion, Estado)
 type MapaDeLockers = [Locker]
 type Disponibilidad = Bool
+
+--a)
+existeElLocker :: Identificacion -> MapaDeLockers -> Bool
+existeElLocker _ [] = False
+existeElLocker n ((numero,(disponible,lugar)):xs) | n == numero = True
+                                                  | otherwise = existeElLocker n xs
+
+--b)
+ubicacionDelLocker :: Identificacion -> MapaDeLockers -> Ubicacion
+ubicacionDelLocker _ [] = "El locker NO existe"
+ubicacionDelLocker n ((numero,(disponible,lugar)):xs) | existeElLocker n ((numero,(disponible,lugar)):xs) && (n == numero) = lugar
+                                                      | otherwise =ubicacionDelLocker n xs
+
+--c)
+estaDisponibleElLocker :: Identificacion -> MapaDeLockers -> Bool
+estaDisponibleElLocker n ((numero,(disponible,lugar)):xs) | existeElLocker n ((numero,(disponible,lugar)):xs) && (numero == n) = disponible
+                                                          | otherwise = estaDisponibleElLocker n xs
+
+--d)
+ocuparLocker :: Identificacion -> MapaDeLockers -> MapaDeLockers
+ocuparLocker n ((numero,(disponible,lugar)):xs) | existeElLocker n ((numero,(disponible,lugar)):xs) && (n == numero && disponible) = (numero,(False,lugar)):xs
+                                                | otherwise = (numero,(disponible,lugar)) : ocuparLocker n xs
+
+--Ejercicio 8: Matrices
+-- a) Suma Total
+
+sumaFila :: [Integer]  -> Integer
+sumaFila [] = 0
+sumaFila (x:xs)  = x + sumaFila xs
+
+sumaTotal :: [[Integer]] -> Integer
+sumaTotal [] = 0
+sumaTotal (x:xs) = sumaFila x + sumaTotal xs
+
+
+--b) Cantidad de apariciones
+
+aparicionesEnFila :: Integer -> [Integer] -> Integer
+aparicionesEnFila _ [] = 0
+aparicionesEnFila e (x:xs) | x == e = 1+ aparicionesEnFila e xs
+                           | otherwise = aparicionesEnFila e xs
+
+cantidadDeApariciones :: Integer -> [[Integer]] -> Integer
+cantidadDeApariciones _ [] = 0
+cantidadDeApariciones e ((x:xs):ys) = aparicionesEnFila e (x:xs) + cantidadDeApariciones e ys
+
+--e) Multiplicar por Escalar
+
+multiplicarEnFila :: Integer -> [Integer] -> [Integer]
+multiplicarEnFila _ [] = []
+multiplicarEnFila e (x:xs) = e*x : multiplicarEnFila e xs
+
+multiplicarPorEscalar :: Integer -> [[Integer]] -> [[Integer]]
+multiplicarPorEscalar _ [] = []
+multiplicarPorEscalar e ((x:xs):ys) = multiplicarEnFila e (x:xs) : multiplicarPorEscalar e ys 
+
+--g) iesima Fila
+
+devolverFilaElegida :: Integer -> Integer -> [[a]] -> [a]
+devolverFilaElegida  _ _ [] = []
+devolverFilaElegida e cont ((x:xs):ys) | cont == e = (x:xs)
+                                       | otherwise = devolverFilaElegida e (cont+1) ys
+
+
+iesimaFila :: Integer -> [[a]] -> [a]
+iesimaFila _ [] = []
+iesimaFila e ((x:xs):ys) = devolverFilaElegida e 1 ((x:xs):ys)
+
+---
+
+columnaElegida :: Integer -> Integer -> [[Integer]] -> [Integer]
+columnaElegida _ _ [] = []
+columnaElegida i cont ((x:xs):ys) | cont == i = x : columnaElegida i 1 ys
+                                  | otherwise = columnaElegida i (cont+1) (xs:ys) 
+
+verificarPar :: [Integer] -> Integer
+verificarPar [] = 0
+verificarPar (x:xs) | mod x 2 == 0 = 1 + verificarPar xs
+                    | otherwise = verificarPar xs
+
+cantidadParesColumna :: [[Integer]] -> Integer -> Integer
+cantidadParesColumna [] _ = 0
+cantidadParesColumna ((x:xs):ys) e = verificarPar (columnaElegida e 1 ((x:xs):ys))
